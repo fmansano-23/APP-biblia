@@ -494,9 +494,10 @@ const Leitura = {
     if (oldGrande) oldGrande.remove();
     indWrap.prepend(criarIndicador(ev, true));
 
-    // Status select
+    // Status select e botão concluir
     const sel = document.getElementById('leitura-status-select');
-    sel.value = status;
+    if (sel) sel.value = status;
+    this.atualizarBotaoConcluir(status);
 
     // Evangelhos
     const corpoLeitura = document.getElementById('leitura-evangelhos');
@@ -540,7 +541,8 @@ const Leitura = {
     const btnProx = document.getElementById('btn-prox');
     btnAnt.disabled  = idx <= 0;
     btnProx.disabled = idx >= cron.length - 1;
-    document.getElementById('leitura-nav-info').textContent = `${ev.id} / ${cron.length}`;
+    const navInfo = document.getElementById('leitura-nav-info');
+    if (navInfo) navInfo.textContent = `${ev.id} / ${cron.length}`;
   },
 
   ir(delta) {
@@ -577,6 +579,22 @@ const Leitura = {
     Persistencia.salvarProgresso();
     Lista.atualizarItem(id);
     atualizarBarraProgresso();
+
+    const sel = document.getElementById('leitura-status-select');
+    if (sel && sel.value !== novoStatus) sel.value = novoStatus;
+    this.atualizarBotaoConcluir(novoStatus);
+  },
+
+  atualizarBotaoConcluir(status) {
+    const btn = document.getElementById('btn-concluir-leitura');
+    if (!btn) return;
+    const isConcluido = status === 'concluido';
+    btn.classList.toggle('concluido', isConcluido);
+    const icone = btn.querySelector('#btn-concluir-icone');
+    const texto = btn.querySelector('#btn-concluir-texto');
+    if (icone) icone.textContent = isConcluido ? '●' : '○';
+    if (texto) texto.textContent = isConcluido ? 'Concluído' : 'Concluir';
+    btn.setAttribute('aria-label', isConcluido ? 'Marcar como em leitura' : 'Marcar como concluído');
   },
 
   salvarAnotacao(texto) {
@@ -764,6 +782,24 @@ function _vincularEventos() {
   // ── Status select ──────────────────────────────────────────────────────────
   document.getElementById('leitura-status-select')
     .addEventListener('change', e => Leitura.salvarStatus(e.target.value));
+
+  // ── Botão Concluir no rodapé ───────────────────────────────────────────────
+  const btnConcluirNav = document.getElementById('btn-concluir-leitura');
+  if (btnConcluirNav) {
+    btnConcluirNav.addEventListener('click', () => {
+      const id = Estado.get('eventoAtual');
+      if (!id) return;
+      const prog = Estado.get('progresso');
+      const statusAtual = prog[id] || 'nao-iniciado';
+      const novoStatus = statusAtual === 'concluido' ? 'em-leitura' : 'concluido';
+      Leitura.salvarStatus(novoStatus);
+      if (novoStatus === 'concluido') {
+        Utils.toast('Leitura concluída! ●');
+      } else {
+        Utils.toast('Marcado como em leitura ◐');
+      }
+    });
+  }
 
   // ── Anotação ───────────────────────────────────────────────────────────────
   const inputAnotacao = document.getElementById('anotacao-input');

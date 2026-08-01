@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="tema-escuro fonte-media esp-normal">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="description" content="Os quatro Evangelhos em ordem cronológica — leia a vida de Cristo como uma narrativa contínua." />
+  <meta name="description"
+    content="Os quatro Evangelhos em ordem cronológica — leia a vida de Cristo como uma narrativa contínua." />
   <meta name="theme-color" content="#0f0f0f" media="(prefers-color-scheme: dark)" />
   <meta name="theme-color" content="#f5f3ef" media="(prefers-color-scheme: light)" />
   <meta name="mobile-web-app-capable" content="yes" />
@@ -23,198 +25,195 @@
 
   <link rel="stylesheet" href="./style.css" />
 </head>
+
 <body>
 
-<!-- ═══════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════
      APLICAÇÃO PRINCIPAL
 ═══════════════════════════════════════════════════════ -->
-<div id="app">
+  <div id="app">
 
-  <!-- Topbar -->
-  <header id="topbar">
-    <span id="topbar-titulo">Evangelhos</span>
-    <div id="topbar-busca">
-      <input
-        id="campo-busca"
-        type="search"
-        placeholder="Pesquisar…"
-        autocomplete="off"
-        spellcheck="false"
-        aria-label="Pesquisar acontecimentos"
-      />
-      <button id="btn-limpar-busca" aria-label="Limpar busca">✕</button>
-    </div>
-    <button id="btn-config" class="topbar-btn" aria-label="Configurações">⚙</button>
-  </header>
+    <!-- Topbar -->
+    <header id="topbar">
+      <span id="topbar-titulo">Evangelhos</span>
+      <div id="topbar-busca">
+        <input id="campo-busca" type="search" placeholder="Pesquisar…" autocomplete="off" spellcheck="false"
+          aria-label="Pesquisar acontecimentos" />
+        <button id="btn-limpar-busca" aria-label="Limpar busca">✕</button>
+      </div>
+      <button id="btn-config" class="topbar-btn" aria-label="Configurações">⚙</button>
+    </header>
 
-  <!-- Barra de progresso global -->
-  <div id="barra-progresso-wrap" aria-label="Progresso de leitura">
-    <span id="progresso-texto">0 / 250</span>
-    <div id="barra-progresso-trilha" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-      <div id="barra-progresso-fill"></div>
-    </div>
-    <span id="progresso-pct">0%</span>
-  </div>
-
-  <!-- Banner: Continuar leitura -->
-  <div id="banner-continuar">
-    <button id="btn-continuar" aria-label="Continuar leitura">
-      <span>▶</span>
-      <span>Continuar leitura</span>
-      <span id="btn-continuar-titulo"></span>
-    </button>
-  </div>
-
-  <!-- Conteúdo principal (scrollável) -->
-  <main id="conteudo">
-
-    <!-- Lista cronológica -->
-    <div id="lista-principal" role="list" aria-label="Lista de acontecimentos"></div>
-
-    <!-- Tela Favoritos -->
-    <div id="tela-favoritos" role="list" aria-label="Favoritos">
-      <div id="favoritos-vazio">Nenhum favorito ainda.<br>Abra um acontecimento e toque em ♡.</div>
+    <!-- Barra de progresso global -->
+    <div id="barra-progresso-wrap" aria-label="Progresso de leitura">
+      <span id="progresso-texto">0 / 250</span>
+      <div id="barra-progresso-trilha" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div id="barra-progresso-fill"></div>
+      </div>
+      <span id="progresso-pct">0%</span>
     </div>
 
-    <!-- Sem resultados -->
-    <div id="sem-resultados" aria-live="polite">Nenhum resultado encontrado.</div>
+    <!-- Banner: Continuar leitura -->
+    <div id="banner-continuar">
+      <button id="btn-continuar" aria-label="Continuar leitura">
+        <span>▶</span>
+        <span>Continuar leitura</span>
+        <span id="btn-continuar-titulo"></span>
+      </button>
+    </div>
 
-  </main>
+    <!-- Conteúdo principal (scrollável) -->
+    <main id="conteudo">
 
-  <!-- Navbar inferior -->
-  <nav id="navbar" aria-label="Navegação principal">
-    <button class="nav-item ativo" data-aba="lista" id="nav-lista" aria-label="Lista cronológica">
-      <span class="nav-icon">☰</span>
-      <span>Lista</span>
-    </button>
-    <button class="nav-item" data-aba="favoritos" id="nav-favoritos" aria-label="Favoritos">
-      <span class="nav-icon">♡</span>
-      <span>Favoritos</span>
-    </button>
-  </nav>
+      <!-- Lista cronológica -->
+      <div id="lista-principal" role="list" aria-label="Lista de acontecimentos"></div>
 
-</div><!-- /#app -->
+      <!-- Tela Favoritos -->
+      <div id="tela-favoritos" role="list" aria-label="Favoritos">
+        <div id="favoritos-vazio">Nenhum favorito ainda.<br>Abra um acontecimento e toque em ♡.</div>
+      </div>
+
+      <!-- Sem resultados -->
+      <div id="sem-resultados" aria-live="polite">Nenhum resultado encontrado.</div>
+
+    </main>
+
+    <!-- Navbar inferior -->
+    <nav id="navbar" aria-label="Navegação principal">
+      <button class="nav-item ativo" data-aba="lista" id="nav-lista" aria-label="Lista cronológica">
+        <span class="nav-icon">☰</span>
+        <span>Lista</span>
+      </button>
+      <button class="nav-item" data-aba="favoritos" id="nav-favoritos" aria-label="Favoritos">
+        <span class="nav-icon">♡</span>
+        <span>Favoritos</span>
+      </button>
+    </nav>
+
+  </div><!-- /#app -->
 
 
-<!-- ═══════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════
      TELA DE LEITURA (slide da direita)
 ═══════════════════════════════════════════════════════ -->
-<div id="tela-leitura" role="dialog" aria-modal="true" aria-label="Leitura do acontecimento">
+  <div id="tela-leitura" role="dialog" aria-modal="true" aria-label="Leitura do acontecimento">
 
-  <!-- Header da leitura -->
-  <header id="leitura-header">
-    <button id="btn-voltar" aria-label="Voltar à lista">
-      ‹ <span>Voltar</span>
-    </button>
-    <div id="leitura-header-centro">
-      <span id="leitura-numero-header"></span>
-      <!-- indicador inserido via JS -->
-    </div>
-    <div id="leitura-acoes">
-      <button id="btn-fav-leitura" class="leitura-btn" aria-label="Favoritar">♡</button>
-    </div>
-  </header>
-
-  <!-- Corpo da leitura -->
-  <div id="leitura-corpo">
-
-    <!-- Título e indicador -->
-    <div id="leitura-titulo-area">
-      <h1 id="leitura-titulo"></h1>
-      <div id="leitura-indicador-wrap">
+    <!-- Header da leitura -->
+    <header id="leitura-header">
+      <button id="btn-voltar" aria-label="Voltar à lista">
+        ‹ <span>Voltar</span>
+      </button>
+      <div id="leitura-header-centro">
+        <span id="leitura-numero-header"></span>
         <!-- indicador inserido via JS -->
-        <select id="leitura-status-select" aria-label="Status de leitura">
-          <option value="nao-iniciado">○ Não iniciado</option>
-          <option value="em-leitura">◐ Em leitura</option>
-          <option value="concluido">● Concluído</option>
-        </select>
+      </div>
+      <div id="leitura-acoes">
+        <button id="btn-fav-leitura" class="leitura-btn" aria-label="Favoritar">♡</button>
+      </div>
+    </header>
+
+    <!-- Corpo da leitura -->
+    <div id="leitura-corpo">
+
+      <!-- Título e indicador -->
+      <div id="leitura-titulo-area">
+        <h1 id="leitura-titulo"></h1>
+        <div id="leitura-indicador-wrap">
+          <!-- indicador inserido via JS -->
+          <select id="leitura-status-select" aria-label="Status de leitura">
+            <option value="nao-iniciado">○ Não iniciado</option>
+            <option value="em-leitura">◐ Em leitura</option>
+            <option value="concluido">● Concluído</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Blocos de evangelhos (inseridos via JS) -->
+      <div id="leitura-evangelhos"></div>
+
+      <!-- Anotação pessoal -->
+      <div id="anotacao-area">
+        <div id="anotacao-label">Anotação pessoal</div>
+        <textarea id="anotacao-input" placeholder="Escreva sua anotação aqui…" aria-label="Anotação pessoal"></textarea>
+        <div id="anotacao-salvo"></div>
+      </div>
+
+    </div><!-- /#leitura-corpo -->
+
+    <!-- Navegação anterior / próximo -->
+    <div id="leitura-nav">
+      <button id="btn-ant" aria-label="Acontecimento anterior">‹ Anterior</button>
+      <button id="btn-concluir-leitura" aria-label="Marcar como concluído">
+        <span id="btn-concluir-icone">○</span>
+        <span id="btn-concluir-texto">Concluído</span>
+      </button>
+      <button id="btn-prox" aria-label="Próximo acontecimento">Próximo ›</button>
+    </div>
+
+  </div><!-- /#tela-leitura -->
+
+
+  <!-- ═══════════════════════════════════════════════════════
+     PAINEL DE CONFIGURAÇÕES (bottom sheet)
+═══════════════════════════════════════════════════════ -->
+  <div id="overlay" aria-hidden="true"></div>
+
+  <aside id="tela-config" role="dialog" aria-modal="true" aria-label="Configurações">
+    <div id="config-handle"></div>
+    <div id="config-titulo">Configurações</div>
+
+    <div class="config-secao">
+      <div class="config-secao-label">Tema</div>
+      <div class="config-opcoes">
+        <button class="config-btn" data-pref="tema" data-valor="escuro">◐ Escuro</button>
+        <button class="config-btn" data-pref="tema" data-valor="claro">○ Claro</button>
       </div>
     </div>
 
-    <!-- Blocos de evangelhos (inseridos via JS) -->
-    <div id="leitura-evangelhos"></div>
-
-    <!-- Anotação pessoal -->
-    <div id="anotacao-area">
-      <div id="anotacao-label">Anotação pessoal</div>
-      <textarea
-        id="anotacao-input"
-        placeholder="Escreva sua anotação aqui…"
-        aria-label="Anotação pessoal"
-      ></textarea>
-      <div id="anotacao-salvo"></div>
+    <div class="config-secao">
+      <div class="config-secao-label">Tamanho da fonte</div>
+      <div class="config-opcoes">
+        <button class="config-btn" data-pref="fonte" data-valor="pequena" style="font-size:12px">A</button>
+        <button class="config-btn" data-pref="fonte" data-valor="media" style="font-size:14px">A</button>
+        <button class="config-btn" data-pref="fonte" data-valor="grande" style="font-size:16px">A</button>
+        <button class="config-btn" data-pref="fonte" data-valor="xgrande" style="font-size:18px">A</button>
+      </div>
     </div>
 
-  </div><!-- /#leitura-corpo -->
-
-  <!-- Navegação anterior / próximo -->
-  <div id="leitura-nav">
-    <button id="btn-ant" aria-label="Acontecimento anterior">‹ Anterior</button>
-    <div id="leitura-nav-info"></div>
-    <button id="btn-prox" aria-label="Próximo acontecimento">Próximo ›</button>
-  </div>
-
-</div><!-- /#tela-leitura -->
-
-
-<!-- ═══════════════════════════════════════════════════════
-     PAINEL DE CONFIGURAÇÕES (bottom sheet)
-═══════════════════════════════════════════════════════ -->
-<div id="overlay" aria-hidden="true"></div>
-
-<aside id="tela-config" role="dialog" aria-modal="true" aria-label="Configurações">
-  <div id="config-handle"></div>
-  <div id="config-titulo">Configurações</div>
-
-  <div class="config-secao">
-    <div class="config-secao-label">Tema</div>
-    <div class="config-opcoes">
-      <button class="config-btn" data-pref="tema" data-valor="escuro">◐ Escuro</button>
-      <button class="config-btn" data-pref="tema" data-valor="claro">○ Claro</button>
+    <div class="config-secao">
+      <div class="config-secao-label">Espaçamento</div>
+      <div class="config-opcoes">
+        <button class="config-btn" data-pref="espacamento" data-valor="compacto">Compacto</button>
+        <button class="config-btn" data-pref="espacamento" data-valor="normal">Normal</button>
+        <button class="config-btn" data-pref="espacamento" data-valor="amplo">Amplo</button>
+      </div>
     </div>
-  </div>
 
-  <div class="config-secao">
-    <div class="config-secao-label">Tamanho da fonte</div>
-    <div class="config-opcoes">
-      <button class="config-btn" data-pref="fonte" data-valor="pequena" style="font-size:12px">A</button>
-      <button class="config-btn" data-pref="fonte" data-valor="media"   style="font-size:14px">A</button>
-      <button class="config-btn" data-pref="fonte" data-valor="grande"  style="font-size:16px">A</button>
-      <button class="config-btn" data-pref="fonte" data-valor="xgrande" style="font-size:18px">A</button>
+    <div class="config-secao">
+      <div class="config-secao-label">Fonte</div>
+      <div class="config-opcoes">
+        <button class="config-btn" data-pref="tipoFonte" data-valor="sansserif" style="font-family:sans-serif">Sem
+          serifa</button>
+        <button class="config-btn" data-pref="tipoFonte" data-valor="serifada"
+          style="font-family:Georgia,serif">Serifada</button>
+      </div>
     </div>
-  </div>
 
-  <div class="config-secao">
-    <div class="config-secao-label">Espaçamento</div>
-    <div class="config-opcoes">
-      <button class="config-btn" data-pref="espacamento" data-valor="compacto">Compacto</button>
-      <button class="config-btn" data-pref="espacamento" data-valor="normal">Normal</button>
-      <button class="config-btn" data-pref="espacamento" data-valor="amplo">Amplo</button>
-    </div>
-  </div>
-
-  <div class="config-secao">
-    <div class="config-secao-label">Fonte</div>
-    <div class="config-opcoes">
-      <button class="config-btn" data-pref="tipoFonte" data-valor="sansserif" style="font-family:sans-serif">Sem serifa</button>
-      <button class="config-btn" data-pref="tipoFonte" data-valor="serifada"  style="font-family:Georgia,serif">Serifada</button>
-    </div>
-  </div>
-
-  <button id="btn-fechar-config" class="config-btn" style="width:100%;margin-top:8px">Fechar</button>
-</aside>
+    <button id="btn-fechar-config" class="config-btn" style="width:100%;margin-top:8px">Fechar</button>
+  </aside>
 
 
-<!-- ═══════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════
      TOAST
 ═══════════════════════════════════════════════════════ -->
-<div id="toast" role="status" aria-live="polite"></div>
+  <div id="toast" role="status" aria-live="polite"></div>
 
 
-<!-- ═══════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════
      SCRIPTS
 ═══════════════════════════════════════════════════════ -->
-<script src="./app.js"></script>
+  <script src="./app.js"></script>
 
 </body>
+
 </html>
