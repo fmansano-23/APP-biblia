@@ -46,11 +46,24 @@
 
     <!-- Barra de progresso global -->
     <div id="barra-progresso-wrap" aria-label="Progresso de leitura">
-      <span id="progresso-texto">0 / 250</span>
-      <div id="barra-progresso-trilha" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-        <div id="barra-progresso-fill"></div>
+      <div id="barra-progresso-linha">
+        <span id="progresso-texto">0 / 250</span>
+        <div id="barra-progresso-trilha" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div id="barra-progresso-fill"></div>
+        </div>
+        <span id="progresso-pct">0%</span>
+        <span id="contador-leituras" class="contador-leituras" style="display: none;" title="Total de leituras completas concluídas"></span>
       </div>
-      <span id="progresso-pct">0%</span>
+      <div id="barra-reset-wrap" class="barra-reset-wrap" style="display: none;">
+        <div class="reset-mensagem">
+          <span class="reset-icone-festa">🎉</span>
+          <span class="reset-texto-destaque">Leitura completa concluída!</span>
+        </div>
+        <button id="btn-resetar-leitura" class="btn-resetar-leitura" type="button" aria-label="Reiniciar leitura dos Evangelhos">
+          <span class="reset-btn-icone">↺</span>
+          <span>Reiniciar leitura</span>
+        </button>
+      </div>
     </div>
 
     <!-- Banner: Continuar leitura -->
@@ -201,6 +214,26 @@
 
     <button id="btn-fechar-config" class="config-btn" style="width:100%;margin-top:8px">Fechar</button>
   </aside>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+     MODAL DE CONFIRMAÇÃO DE REINÍCIO
+═══════════════════════════════════════════════════════ -->
+  <div id="modal-reset" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-reset-titulo">
+    <div class="modal-card">
+      <div class="modal-icone">🏆</div>
+      <h2 id="modal-reset-titulo" class="modal-titulo">Parabéns pela conclusão!</h2>
+      <p id="modal-reset-desc" class="modal-descricao">
+        Você concluiu todos os 250 acontecimentos dos quatro Evangelhos.<br><br>
+        Deseja registrar essa leitura completa e reiniciar o progresso para a <strong id="modal-proxima-leitura">2ª leitura</strong>?<br><br>
+        <span class="modal-aviso">✓ Seus favoritos, destaques e anotações continuarão salvos.</span>
+      </p>
+      <div class="modal-acoes">
+        <button id="btn-cancelar-reset" class="btn-modal-secundario" type="button">Cancelar</button>
+        <button id="btn-confirmar-reset" class="btn-modal-primario" type="button">↺ Iniciar nova leitura</button>
+      </div>
+    </div>
+  </div>
 
 
   <!-- ═══════════════════════════════════════════════════════

@@ -1,4 +1,4 @@
-﻿# AGENTS.md — Evangelhos Cronológicos
+# AGENTS.md — Evangelhos Cronológicos
 
 ## Contexto do Projeto
 
@@ -81,6 +81,7 @@ Chaves salvas:
 | destaques | trechos marcados por ID |
 | anotacoes | notas pessoais por ID |
 | ultimoItem | ID do último acontecimento aberto |
+| leiturasConcluidas | total de vezes que a cronologia foi lida por completo |
 | preferencias | tema, tamanho de fonte, espaçamento, fonte |
 
 ---
