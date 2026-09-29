@@ -1,7 +1,7 @@
 /* ─── Service Worker — Evangelhos Cronológicos ─────────────────────────────── */
 /* Estratégia: Cache-First para todos os assets do app                           */
 
-const CACHE_NAME  = 'evangelhos-v1.1';
+const CACHE_NAME  = 'evangelhos-v1.2';
 const CACHE_URLS  = [
   './',
   './index.html',

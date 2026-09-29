@@ -28,11 +28,12 @@ const Estado = (() => {
     busca:         '',
 
     // Persistidos no localStorage
-    progresso:    {},  // { [id]: 'nao-iniciado' | 'em-leitura' | 'concluido' }
-    favoritos:    [],  // [id, id, ...]
-    destaques:    {},  // { [id]: [{ inicio, fim, texto }] }
-    anotacoes:    {},  // { [id]: string }
-    ultimoItem:   null,
+    progresso:          {},  // { [id]: 'nao-iniciado' | 'em-leitura' | 'concluido' }
+    favoritos:          [],  // [id, id, ...]
+    destaques:          {},  // { [id]: [{ inicio, fim, texto }] }
+    anotacoes:          {},  // { [id]: string }
+    ultimoItem:         null,
+    leiturasConcluidas: 0,
     prefs: {
       tema:         'escuro',   // 'escuro' | 'claro'
       fonte:        'media',    // 'pequena' | 'media' | 'grande' | 'xgrande'
@@ -64,22 +65,24 @@ const Persistencia = {
   },
 
   carregar() {
-    Estado.set('progresso',  this._ler('progresso',  {}));
-    Estado.set('favoritos',  this._ler('favoritos',  []));
-    Estado.set('destaques',  this._ler('destaques',  {}));
-    Estado.set('anotacoes',  this._ler('anotacoes',  {}));
-    Estado.set('ultimoItem', this._ler('ultimoItem', null));
-    Estado.set('prefs',      this._ler('preferencias', {
+    Estado.set('progresso',          this._ler('progresso',          {}));
+    Estado.set('favoritos',          this._ler('favoritos',          []));
+    Estado.set('destaques',          this._ler('destaques',          {}));
+    Estado.set('anotacoes',          this._ler('anotacoes',          {}));
+    Estado.set('ultimoItem',         this._ler('ultimoItem',         null));
+    Estado.set('leiturasConcluidas', this._ler('leiturasConcluidas', 0));
+    Estado.set('prefs',              this._ler('preferencias', {
       tema: 'escuro', fonte: 'media', espacamento: 'normal', tipoFonte: 'sansserif'
     }));
   },
 
-  salvarProgresso()   { this._salvar('progresso',   Estado.get('progresso')); },
-  salvarFavoritos()   { this._salvar('favoritos',   Estado.get('favoritos')); },
-  salvarDestaques()   { this._salvar('destaques',   Estado.get('destaques')); },
-  salvarAnotacoes()   { this._salvar('anotacoes',   Estado.get('anotacoes')); },
-  salvarUltimoItem()  { this._salvar('ultimoItem',  Estado.get('ultimoItem')); },
-  salvarPrefs()       { this._salvar('preferencias',Estado.get('prefs')); },
+  salvarProgresso()          { this._salvar('progresso',          Estado.get('progresso')); },
+  salvarFavoritos()          { this._salvar('favoritos',          Estado.get('favoritos')); },
+  salvarDestaques()          { this._salvar('destaques',          Estado.get('destaques')); },
+  salvarAnotacoes()          { this._salvar('anotacoes',          Estado.get('anotacoes')); },
+  salvarUltimoItem()         { this._salvar('ultimoItem',         Estado.get('ultimoItem')); },
+  salvarLeiturasConcluidas() { this._salvar('leiturasConcluidas', Estado.get('leiturasConcluidas')); },
+  salvarPrefs()              { this._salvar('preferencias',       Estado.get('prefs')); },
 };
 
 /* ═══════════════════════════════════════════════════════════════════════════════
@@ -234,7 +237,93 @@ function atualizarBarraProgresso() {
   document.getElementById('progresso-texto').textContent  = `${concluidos} / ${total}`;
   document.getElementById('progresso-pct').textContent    = `${pct}%`;
   document.getElementById('barra-progresso-fill').style.width = `${pct}%`;
+
+  // Badge do contador de leituras completas
+  const leituras = Estado.get('leiturasConcluidas') || 0;
+  const badge = document.getElementById('contador-leituras');
+  if (badge) {
+    if (leituras > 0) {
+      badge.textContent = leituras === 1 ? '🏆 1 leitura completa' : `🏆 ${leituras} leituras completas`;
+      badge.style.display = 'inline-flex';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+
+  // Banner de reiniciar leitura quando 100% concluído
+  const bannerReset = document.getElementById('barra-reset-wrap');
+  if (bannerReset) {
+    if (total > 0 && concluidos === total) {
+      bannerReset.classList.add('visivel');
+    } else {
+      bannerReset.classList.remove('visivel');
+    }
+  }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   CICLOS DE LEITURA (REINICIAR / CONTADOR)
+═══════════════════════════════════════════════════════════════════════════════ */
+
+const LeituraCiclos = {
+  abrirModalReset() {
+    const totalConcluidas = Estado.get('leiturasConcluidas') || 0;
+    const proxima = totalConcluidas + 2;
+    const proximaEl = document.getElementById('modal-proxima-leitura');
+    if (proximaEl) {
+      proximaEl.textContent = `${proxima}ª leitura`;
+    }
+    const modal = document.getElementById('modal-reset');
+    if (modal) {
+      modal.classList.add('visivel');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+  },
+
+  fecharModalReset() {
+    const modal = document.getElementById('modal-reset');
+    if (modal) {
+      modal.classList.remove('visivel');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  },
+
+  reiniciar() {
+    this.fecharModalReset();
+
+    const leiturasAtual = Estado.get('leiturasConcluidas') || 0;
+    const novoTotal = leiturasAtual + 1;
+    Estado.set('leiturasConcluidas', novoTotal);
+    Persistencia.salvarLeiturasConcluidas();
+
+    // Zerar status de todos os acontecimentos para 'nao-iniciado'
+    Estado.set('progresso', {});
+    Persistencia.salvarProgresso();
+
+    // Retornar leitura ao primeiro item
+    const lista = Estado.get('cronologia');
+    if (lista && lista.length > 0) {
+      Estado.set('ultimoItem', lista[0].id);
+      Persistencia.salvarUltimoItem();
+    }
+
+    // Se estiver com tela de leitura aberta, fechar
+    if (Estado.get('eventoAtual')) {
+      Leitura.fechar();
+    }
+
+    // Atualizar UI
+    atualizarBarraProgresso();
+    atualizarBannerContinuar();
+    Lista.renderizar(Estado.get('visivel'), Estado.get('busca'));
+
+    // Rolar para o topo da lista
+    const conteudo = document.getElementById('conteudo');
+    if (conteudo) conteudo.scrollTop = 0;
+
+    Utils.toast(`🏆 Parabéns pela ${novoTotal}ª leitura completa! Progresso reiniciado.`);
+  },
+};
 
 /* ═══════════════════════════════════════════════════════════════════════════════
    BANNER CONTINUAR LEITURA
@@ -771,6 +860,29 @@ function _vincularEventos() {
       if (ultimo) Leitura.abrir(ultimo);
     });
 
+  // ── Reiniciar leitura / Ciclos ─────────────────────────────────────────────
+  const btnResetar = document.getElementById('btn-resetar-leitura');
+  if (btnResetar) {
+    btnResetar.addEventListener('click', () => LeituraCiclos.abrirModalReset());
+  }
+
+  const btnCancelarReset = document.getElementById('btn-cancelar-reset');
+  if (btnCancelarReset) {
+    btnCancelarReset.addEventListener('click', () => LeituraCiclos.fecharModalReset());
+  }
+
+  const btnConfirmarReset = document.getElementById('btn-confirmar-reset');
+  if (btnConfirmarReset) {
+    btnConfirmarReset.addEventListener('click', () => LeituraCiclos.reiniciar());
+  }
+
+  const modalReset = document.getElementById('modal-reset');
+  if (modalReset) {
+    modalReset.addEventListener('click', e => {
+      if (e.target === modalReset) LeituraCiclos.fecharModalReset();
+    });
+  }
+
   // ── Voltar da leitura ──────────────────────────────────────────────────────
   document.getElementById('btn-voltar')
     .addEventListener('click', () => Leitura.fechar());
@@ -794,7 +906,13 @@ function _vincularEventos() {
       const novoStatus = statusAtual === 'concluido' ? 'em-leitura' : 'concluido';
       Leitura.salvarStatus(novoStatus);
       if (novoStatus === 'concluido') {
-        Utils.toast('Leitura concluída! ●');
+        const total = Estado.get('cronologia').length;
+        const concluidos = Utils.contarConcluidos();
+        if (total > 0 && concluidos === total) {
+          Utils.toast('🎉 Parabéns! Todos os Evangelhos foram concluídos!');
+        } else {
+          Utils.toast('Leitura concluída! ●');
+        }
       } else {
         Utils.toast('Marcado como em leitura ◐');
       }
