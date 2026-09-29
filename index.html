@@ -54,7 +54,7 @@
         <span id="progresso-pct">0%</span>
         <span id="contador-leituras" class="contador-leituras" style="display: none;" title="Total de leituras completas concluídas"></span>
       </div>
-      <div id="barra-reset-wrap" class="barra-reset-wrap" style="display: none;">
+      <div id="barra-reset-wrap" class="barra-reset-wrap">
         <div class="reset-mensagem">
           <span class="reset-icone-festa">🎉</span>
           <span class="reset-texto-destaque">Leitura completa concluída!</span>
@@ -143,6 +143,18 @@
 
       <!-- Blocos de evangelhos (inseridos via JS) -->
       <div id="leitura-evangelhos"></div>
+
+      <!-- Banner de conclusão dentro da leitura -->
+      <div id="leitura-reset-wrap" class="barra-reset-wrap banner-reset-leitor">
+        <div class="reset-mensagem">
+          <span class="reset-icone-festa">🎉</span>
+          <span class="reset-texto-destaque">Parabéns! Todos os 250 concluídos!</span>
+        </div>
+        <button id="btn-resetar-leitura-leitor" class="btn-resetar-leitura" type="button" aria-label="Reiniciar leitura dos Evangelhos">
+          <span class="reset-btn-icone">↺</span>
+          <span>Reiniciar leitura</span>
+        </button>
+      </div>
 
       <!-- Anotação pessoal -->
       <div id="anotacao-area">

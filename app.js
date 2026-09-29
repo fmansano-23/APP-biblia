@@ -250,14 +250,15 @@ function atualizarBarraProgresso() {
     }
   }
 
-  // Banner de reiniciar leitura quando 100% concluído
+  // Banner de reiniciar leitura quando 100% concluído (no cabeçalho e na tela de leitura)
+  const is100 = total > 0 && concluidos === total;
   const bannerReset = document.getElementById('barra-reset-wrap');
   if (bannerReset) {
-    if (total > 0 && concluidos === total) {
-      bannerReset.classList.add('visivel');
-    } else {
-      bannerReset.classList.remove('visivel');
-    }
+    bannerReset.classList.toggle('visivel', is100);
+  }
+  const bannerResetLeitor = document.getElementById('leitura-reset-wrap');
+  if (bannerResetLeitor) {
+    bannerResetLeitor.classList.toggle('visivel', is100);
   }
 }
 
@@ -632,6 +633,9 @@ const Leitura = {
     btnProx.disabled = idx >= cron.length - 1;
     const navInfo = document.getElementById('leitura-nav-info');
     if (navInfo) navInfo.textContent = `${ev.id} / ${cron.length}`;
+
+    // Atualiza barra e banner de conclusão no leitor
+    atualizarBarraProgresso();
   },
 
   ir(delta) {
@@ -864,6 +868,11 @@ function _vincularEventos() {
   const btnResetar = document.getElementById('btn-resetar-leitura');
   if (btnResetar) {
     btnResetar.addEventListener('click', () => LeituraCiclos.abrirModalReset());
+  }
+
+  const btnResetarLeitor = document.getElementById('btn-resetar-leitura-leitor');
+  if (btnResetarLeitor) {
+    btnResetarLeitor.addEventListener('click', () => LeituraCiclos.abrirModalReset());
   }
 
   const btnCancelarReset = document.getElementById('btn-cancelar-reset');
